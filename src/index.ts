@@ -1,14 +1,25 @@
-import express, { Request, Response } from 'express';
-
+import express, { Request, Response } from "express";
+import subjectsRouter from "./routes/subjects";
+import cors from "cors";
 const app = express();
 const PORT = 8000;
+
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  }),
+);
 
 // Middleware
 app.use(express.json());
 
+app.use("/api/subjects", subjectsRouter);
+
 // Routes
-app.get('/', (req: Request, res: Response) => {
-  res.send('Classroom backend is running');
+app.get("/", (req: Request, res: Response) => {
+  res.send("Classroom backend is running");
 });
 
 // Start server
