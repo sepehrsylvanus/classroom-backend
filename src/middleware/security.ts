@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import aj from "../config/arcjet";
 import { ArcjetNodeRequest, slidingWindow } from "@arcjet/node";
-import { max } from "drizzle-orm";
-import { error } from "node:console";
+
 const securityMiddleware = async (
   req: Request,
   res: Response,
@@ -66,7 +65,7 @@ const securityMiddleware = async (
       });
     }
     if (decision.isDenied() && decision.reason.isRateLimit()) {
-      return res.status(403).json({
+      return res.status(429).json({
         error: "Too many requests",
         message,
       });
